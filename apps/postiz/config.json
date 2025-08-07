@@ -6,9 +6,7 @@
   "author": "gitroomhq",
   "port": 5000,
   "categories": [
-    "social",
-    "productivity",
-    "marketing"
+    "social"
   ],
   "description": "Open-source social media scheduling tool that supports platforms like X (formerly Twitter), Bluesky, Mastodon, Discord, and others. Schedule posts, measure analytics, collaborate with team members, and leverage AI features for content creation.",
   "tipi_version": 2,
