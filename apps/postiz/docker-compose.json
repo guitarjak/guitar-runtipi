@@ -5,21 +5,21 @@
       "image": "ghcr.io/gitroomhq/postiz-app:latest",
       "isMain": true,
       "internalPort": "5000",
-      "environment": [
-        "MAIN_URL=${MAIN_URL}",
-        "FRONTEND_URL=${MAIN_URL}",
-        "NEXT_PUBLIC_BACKEND_URL=${MAIN_URL}/api",
-        "JWT_SECRET=${JWT_SECRET}",
-        "DATABASE_URL=postgresql://postiz-user:postiz-password@postiz-postgres:5432/postiz-db-local",
-        "REDIS_URL=redis://postiz-redis:6379",
-        "BACKEND_INTERNAL_URL=http://localhost:3000",
-        "IS_GENERAL=true",
-        "DISABLE_REGISTRATION=${DISABLE_REGISTRATION:-false}",
-        "NOT_SECURED=${NOT_SECURED:-false}",
-        "STORAGE_PROVIDER=local",
-        "UPLOAD_DIRECTORY=/uploads",
-        "NEXT_PUBLIC_UPLOAD_DIRECTORY=/uploads"
-      ],
+      "environment": {
+        "MAIN_URL": "${MAIN_URL}",
+        "FRONTEND_URL": "${MAIN_URL}",
+        "NEXT_PUBLIC_BACKEND_URL": "${MAIN_URL}/api",
+        "JWT_SECRET": "${JWT_SECRET}",
+        "DATABASE_URL": "postgresql://postiz-user:postiz-password@postiz-postgres:5432/postiz-db-local",
+        "REDIS_URL": "redis://postiz-redis:6379",
+        "BACKEND_INTERNAL_URL": "http://localhost:3000",
+        "IS_GENERAL": "true",
+        "DISABLE_REGISTRATION": "${DISABLE_REGISTRATION:-false}",
+        "NOT_SECURED": "${NOT_SECURED:-false}",
+        "STORAGE_PROVIDER": "local",
+        "UPLOAD_DIRECTORY": "/uploads",
+        "NEXT_PUBLIC_UPLOAD_DIRECTORY": "/uploads"
+      },
       "volumes": [
         {
           "hostPath": "${APP_DATA_DIR}/config",
@@ -35,11 +35,11 @@
     {
       "name": "postiz-postgres",
       "image": "postgres:17-alpine",
-      "environment": [
-        "POSTGRES_PASSWORD=postiz-password",
-        "POSTGRES_USER=postiz-user",
-        "POSTGRES_DB=postiz-db-local"
-      ],
+      "environment": {
+        "POSTGRES_PASSWORD": "postiz-password",
+        "POSTGRES_USER": "postiz-user",
+        "POSTGRES_DB": "postiz-db-local"
+      },
       "volumes": [
         {
           "hostPath": "${APP_DATA_DIR}/postgres",
