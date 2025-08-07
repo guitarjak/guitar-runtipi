@@ -15,10 +15,11 @@
   "website": "https://postiz.com",
   "exposable": true,
   "supported_architectures": [
-    "amd64"
+    "amd64",
+    "arm64"
   ],
-  "created_at": 1754363200000,
-  "updated_at": 1754363200000,
+  "created_at": 1738972800000,
+  "updated_at": 1738972800000,
   "dynamic_config": true,
   "form_fields": [
     {
