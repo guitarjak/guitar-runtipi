@@ -53,6 +53,24 @@
       "hint": "Set to true if not using HTTPS. WARNING: Only for development!",
       "required": false,
       "env_variable": "NOT_SECURED"
+    },
+    {
+      "type": "text",
+      "label": "Facebook Client ID",
+      "hint": "Your Facebook App ID for OAuth integration. Create a Facebook app at https://developers.facebook.com/apps/",
+      "max": 100,
+      "min": 1,
+      "required": false,
+      "env_variable": "FACEBOOK_CLIENT_ID"
+    },
+    {
+      "type": "password",
+      "label": "Facebook Client Secret",
+      "hint": "Your Facebook App Secret for OAuth integration. Keep this secure and never share it publicly!",
+      "max": 100,
+      "min": 1,
+      "required": false,
+      "env_variable": "FACEBOOK_CLIENT_SECRET"
     }
   ]
 }
