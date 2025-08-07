@@ -6,7 +6,9 @@
   "author": "gitroomhq",
   "port": 5000,
   "categories": [
-    "social"
+    "social",
+    "productivity",
+    "marketing"
   ],
   "description": "Open-source social media scheduling tool that supports platforms like X (formerly Twitter), Bluesky, Mastodon, Discord, and others. Schedule posts, measure analytics, collaborate with team members, and leverage AI features for content creation.",
   "tipi_version": 2,
@@ -15,11 +17,10 @@
   "website": "https://postiz.com",
   "exposable": true,
   "supported_architectures": [
-    "amd64",
-    "arm64"
+    "amd64"
   ],
-  "created_at": 1738972800000,
-  "updated_at": 1738972800000,
+  "created_at": 1754363200000,
+  "updated_at": 1754363200000,
   "dynamic_config": true,
   "form_fields": [
     {
@@ -56,21 +57,21 @@
     },
     {
       "type": "text",
-      "label": "Facebook Client ID",
-      "hint": "Your Facebook App ID for OAuth integration. Create a Facebook app at https://developers.facebook.com/apps/",
-      "max": 100,
-      "min": 1,
+      "label": "Facebook App ID",
+      "hint": "Your Facebook App ID from Facebook Developers Console (optional)",
+      "max": 50,
+      "min": 0,
       "required": false,
-      "env_variable": "FACEBOOK_CLIENT_ID"
+      "env_variable": "FACEBOOK_APP_ID"
     },
     {
-      "type": "password",
-      "label": "Facebook Client Secret",
-      "hint": "Your Facebook App Secret for OAuth integration. Keep this secure and never share it publicly!",
+      "type": "text",
+      "label": "Facebook App Secret",
+      "hint": "Your Facebook App Secret from Facebook Developers Console (optional)",
       "max": 100,
-      "min": 1,
+      "min": 0,
       "required": false,
-      "env_variable": "FACEBOOK_CLIENT_SECRET"
+      "env_variable": "FACEBOOK_APP_SECRET"
     }
   ]
 }
