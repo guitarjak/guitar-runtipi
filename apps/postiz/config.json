@@ -12,7 +12,7 @@
   ],
   "description": "Open-source social media scheduling tool that supports platforms like X (formerly Twitter), Bluesky, Mastodon, Discord, and others. Schedule posts, measure analytics, collaborate with team members, and leverage AI features for content creation.",
   "tipi_version": 3,
-  "version": "latest",
+  "version": "1.47.0",
   "source": "https://github.com/gitroomhq/postiz-app",
   "website": "https://postiz.com",
   "exposable": true,
