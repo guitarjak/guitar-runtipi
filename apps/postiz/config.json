@@ -1,0 +1,59 @@
+{
+  "name": "Postiz",
+  "id": "postiz",
+  "available": true,
+  "short_desc": "📨 The ultimate social media scheduling tool, with a bunch of AI 🤖",
+  "author": "gitroomhq",
+  "port": 5000,
+  "categories": [
+    "social",
+    "productivity",
+    "marketing"
+  ],
+  "description": "Open-source social media scheduling tool that supports platforms like X (formerly Twitter), Bluesky, Mastodon, Discord, and others. Schedule posts, measure analytics, collaborate with team members, and leverage AI features for content creation.",
+  "tipi_version": 3,
+  "version": "latest",
+  "source": "https://github.com/gitroomhq/postiz-app",
+  "website": "https://postiz.com",
+  "exposable": true,
+  "supported_architectures": [
+    "amd64"
+  ],
+  "created_at": 1754363200000,
+  "updated_at": 1754363200000,
+  "dynamic_config": true,
+  "form_fields": [
+    {
+      "type": "text",
+      "label": "Main URL",
+      "hint": "The full URL where Postiz will be accessible (e.g., https://postiz.yourdomain.com)",
+      "max": 200,
+      "min": 1,
+      "required": true,
+      "env_variable": "MAIN_URL"
+    },
+    {
+      "type": "text",
+      "label": "JWT Secret",
+      "hint": "Random string for JWT token encryption. Make it long and unique!",
+      "max": 100,
+      "min": 20,
+      "required": true,
+      "env_variable": "JWT_SECRET"
+    },
+    {
+      "type": "boolean",
+      "label": "Disable Registration",
+      "hint": "Only allow single registration, then disable signup",
+      "required": false,
+      "env_variable": "DISABLE_REGISTRATION"
+    },
+    {
+      "type": "boolean",
+      "label": "Not Secured (Development)",
+      "hint": "Set to true if not using HTTPS. WARNING: Only for development!",
+      "required": false,
+      "env_variable": "NOT_SECURED"
+    }
+  ]
+}
