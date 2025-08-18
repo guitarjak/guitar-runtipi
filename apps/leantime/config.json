@@ -1,24 +1,26 @@
 {
   "name": "Leantime",
-  "available": true,
-  "port": 8080,
-  "exposable": true,
-  "dynamic_config": true,
   "id": "leantime",
-  "description": "Open source project management system for non-project managers. Building with ADHD, Autism, and dyslexia in mind.",
-  "version": "3.2.2",
-  "image": "https://github.com/Leantime/leantime/raw/master/public/assets/images/Screenshots/projectDashboard.png",
-  "categories": [
-    "productivity",
-    "project-management"
-  ],
+  "available": true,
+  "short_desc": "Open source project management for non-project managers",
   "author": "Leantime",
+  "port": 8080,
+  "categories": [
+    "utilities"
+  ],
+  "description": "Open source project management system for non-project managers. Building with ADHD, Autism, and dyslexia in mind.",
+  "tipi_version": 2,
+  "version": "3.2.2",
   "source": "https://github.com/Leantime/leantime",
   "website": "https://leantime.io",
+  "exposable": true,
   "supported_architectures": [
     "amd64",
     "arm64"
   ],
+  "created_at": 1723968443000,
+  "updated_at": 1723968443000,
+  "dynamic_config": true,
   "form_fields": [
     {
       "type": "text",
