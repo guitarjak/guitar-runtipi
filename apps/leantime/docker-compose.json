@@ -1,0 +1,69 @@
+{
+  "services": [
+    {
+      "name": "leantime-db",
+      "image": "mysql:8.4",
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/data/mysql",
+          "containerPath": "/var/lib/mysql",
+          "readOnly": false
+        }
+      ],
+      "environment": {
+        "MYSQL_ROOT_PASSWORD": "${MYSQL_ROOT_PASSWORD}",
+        "MYSQL_DATABASE": "${LEAN_DB_DATABASE}",
+        "MYSQL_USER": "${LEAN_DB_USER}",
+        "MYSQL_PASSWORD": "${LEAN_DB_PASSWORD}"
+      },
+      "command": "--character-set-server=UTF8MB4 --collation-server=UTF8MB4_unicode_ci",
+      "healthCheck": {
+        "test": "mysqladmin ping -h localhost",
+        "interval": "30s",
+        "timeout": "10s",
+        "retries": 3
+      }
+    },
+    {
+      "name": "leantime",
+      "image": "leantime/leantime:latest",
+      "isMain": true,
+      "internalPort": 8080,
+      "dependsOn": ["leantime-db"],
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/data/public_userfiles",
+          "containerPath": "/var/www/html/public/userfiles",
+          "readOnly": false
+        },
+        {
+          "hostPath": "${APP_DATA_DIR}/data/userfiles",
+          "containerPath": "/var/www/html/userfiles",
+          "readOnly": false
+        },
+        {
+          "hostPath": "${APP_DATA_DIR}/data/plugins",
+          "containerPath": "/var/www/html/app/Plugins",
+          "readOnly": false
+        },
+        {
+          "hostPath": "${APP_DATA_DIR}/data/logs",
+          "containerPath": "/var/www/html/storage/logs",
+          "readOnly": false
+        }
+      ],
+      "environment": {
+        "LEAN_DB_HOST": "leantime-db",
+        "LEAN_DB_USER": "${LEAN_DB_USER}",
+        "LEAN_DB_PASSWORD": "${LEAN_DB_PASSWORD}",
+        "LEAN_DB_DATABASE": "${LEAN_DB_DATABASE}",
+        "LEAN_EMAIL_RETURN": "${LEAN_EMAIL_RETURN}",
+        "LEAN_APP_URL": "https://${APP_DOMAIN}",
+        "LEAN_SESSION_PASSWORD": "${LEAN_SESSION_PASSWORD:-changeme}",
+        "LEAN_ADMIN_USER": "${LEAN_ADMIN_USER}",
+        "LEAN_ADMIN_PASSWORD": "${LEAN_ADMIN_PASSWORD}",
+        "TZ": "${TZ}"
+      }
+    }
+  ]
+}

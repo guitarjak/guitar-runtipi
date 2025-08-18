@@ -1,0 +1,81 @@
+{
+  "name": "Leantime",
+  "available": true,
+  "port": 8080,
+  "exposable": true,
+  "dynamic_config": true,
+  "id": "leantime",
+  "description": "Open source project management system for non-project managers. Building with ADHD, Autism, and dyslexia in mind.",
+  "version": "3.2.2",
+  "image": "https://github.com/Leantime/leantime/raw/master/public/assets/images/Screenshots/projectDashboard.png",
+  "categories": [
+    "productivity",
+    "project-management"
+  ],
+  "author": "Leantime",
+  "source": "https://github.com/Leantime/leantime",
+  "website": "https://leantime.io",
+  "supported_architectures": [
+    "amd64",
+    "arm64"
+  ],
+  "form_fields": [
+    {
+      "type": "text",
+      "label": "Admin Username",
+      "max": 50,
+      "min": 3,
+      "required": true,
+      "env_variable": "LEAN_ADMIN_USER",
+      "default": "admin"
+    },
+    {
+      "type": "password",
+      "label": "Admin Password",
+      "max": 50,
+      "min": 8,
+      "required": true,
+      "env_variable": "LEAN_ADMIN_PASSWORD"
+    },
+    {
+      "type": "email",
+      "label": "Admin Email",
+      "required": true,
+      "env_variable": "LEAN_EMAIL_RETURN"
+    },
+    {
+      "type": "text",
+      "label": "Database Name",
+      "max": 50,
+      "min": 3,
+      "required": true,
+      "env_variable": "LEAN_DB_DATABASE",
+      "default": "leantime"
+    },
+    {
+      "type": "text",
+      "label": "Database User",
+      "max": 50,
+      "min": 3,
+      "required": true,
+      "env_variable": "LEAN_DB_USER",
+      "default": "leantime"
+    },
+    {
+      "type": "password",
+      "label": "Database Password",
+      "max": 50,
+      "min": 8,
+      "required": true,
+      "env_variable": "LEAN_DB_PASSWORD"
+    },
+    {
+      "type": "password",
+      "label": "MySQL Root Password",
+      "max": 50,
+      "min": 8,
+      "required": true,
+      "env_variable": "MYSQL_ROOT_PASSWORD"
+    }
+  ]
+}
