@@ -1,0 +1,214 @@
+{
+  "services": [
+    {
+      "name": "plane-db",
+      "image": "postgres:15.7-alpine",
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/data/postgres",
+          "containerPath": "/var/lib/postgresql/data",
+          "readOnly": false
+        }
+      ],
+      "environment": {
+        "POSTGRES_DB": "${POSTGRES_DB}",
+        "POSTGRES_USER": "${POSTGRES_USER}",
+        "POSTGRES_PASSWORD": "${POSTGRES_PASSWORD}"
+      },
+      "healthCheck": {
+        "test": "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}",
+        "interval": "30s",
+        "timeout": "10s",
+        "retries": 3
+      }
+    },
+    {
+      "name": "plane-redis",
+      "image": "valkey/valkey:7.2.5-alpine",
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/data/redis",
+          "containerPath": "/data",
+          "readOnly": false
+        }
+      ],
+      "command": "valkey-server --appendonly yes",
+      "healthCheck": {
+        "test": "valkey-cli ping",
+        "interval": "30s",
+        "timeout": "10s",
+        "retries": 3
+      }
+    },
+    {
+      "name": "plane-minio",
+      "image": "minio/minio:latest",
+      "command": "server /data --console-address \":9090\"",
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/data/minio",
+          "containerPath": "/data",
+          "readOnly": false
+        }
+      ],
+      "environment": {
+        "MINIO_ROOT_USER": "plane",
+        "MINIO_ROOT_PASSWORD": "${POSTGRES_PASSWORD}"
+      },
+      "healthCheck": {
+        "test": "curl -f http://localhost:9000/minio/health/live",
+        "interval": "30s",
+        "timeout": "10s",
+        "retries": 3
+      }
+    },
+    {
+      "name": "plane-mq",
+      "image": "rabbitmq:3.13.6-management-alpine",
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/data/rabbitmq",
+          "containerPath": "/var/lib/rabbitmq",
+          "readOnly": false
+        }
+      ],
+      "environment": {
+        "RABBITMQ_DEFAULT_USER": "plane",
+        "RABBITMQ_DEFAULT_PASS": "${POSTGRES_PASSWORD}"
+      },
+      "healthCheck": {
+        "test": "rabbitmq-diagnostics check_port_connectivity",
+        "interval": "30s",
+        "timeout": "10s",
+        "retries": 3
+      }
+    },
+    {
+      "name": "plane-api",
+      "image": "makeplane/plane-backend:latest",
+      "dependsOn": ["plane-db", "plane-redis", "plane-mq", "plane-minio"],
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/data/logs",
+          "containerPath": "/code/plane/logs",
+          "readOnly": false
+        }
+      ],
+      "environment": {
+        "DEBUG": "0",
+        "DJANGO_SETTINGS_MODULE": "plane.settings.production",
+        "DATABASE_URL": "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@plane-db:5432/${POSTGRES_DB}",
+        "REDIS_URL": "redis://plane-redis:6379/",
+        "SECRET_KEY": "${SECRET_KEY}",
+        "WEB_URL": "${WEB_URL}",
+        "CORS_ALLOWED_ORIGINS": "${CORS_ALLOWED_ORIGINS}",
+        "AWS_REGION": "us-east-1",
+        "AWS_ACCESS_KEY_ID": "plane",
+        "AWS_SECRET_ACCESS_KEY": "${POSTGRES_PASSWORD}",
+        "AWS_S3_ENDPOINT_URL": "http://plane-minio:9000",
+        "AWS_S3_BUCKET_NAME": "plane",
+        "CELERY_BROKER_URL": "amqp://plane:${POSTGRES_PASSWORD}@plane-mq:5672//",
+        "FILE_SIZE_LIMIT": "5242880"
+      },
+      "healthCheck": {
+        "test": "curl -f http://localhost:8000/api/instances/",
+        "interval": "30s",
+        "timeout": "10s",
+        "retries": 3
+      }
+    },
+    {
+      "name": "plane-worker",
+      "image": "makeplane/plane-backend:latest",
+      "dependsOn": ["plane-api", "plane-db", "plane-redis", "plane-mq"],
+      "command": "celery -A plane worker -l info",
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/data/logs",
+          "containerPath": "/code/plane/logs",
+          "readOnly": false
+        }
+      ],
+      "environment": {
+        "DEBUG": "0",
+        "DJANGO_SETTINGS_MODULE": "plane.settings.production",
+        "DATABASE_URL": "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@plane-db:5432/${POSTGRES_DB}",
+        "REDIS_URL": "redis://plane-redis:6379/",
+        "SECRET_KEY": "${SECRET_KEY}",
+        "WEB_URL": "${WEB_URL}",
+        "CORS_ALLOWED_ORIGINS": "${CORS_ALLOWED_ORIGINS}",
+        "AWS_REGION": "us-east-1",
+        "AWS_ACCESS_KEY_ID": "plane",
+        "AWS_SECRET_ACCESS_KEY": "${POSTGRES_PASSWORD}",
+        "AWS_S3_ENDPOINT_URL": "http://plane-minio:9000",
+        "AWS_S3_BUCKET_NAME": "plane",
+        "CELERY_BROKER_URL": "amqp://plane:${POSTGRES_PASSWORD}@plane-mq:5672//",
+        "FILE_SIZE_LIMIT": "5242880"
+      }
+    },
+    {
+      "name": "plane-beat-worker",
+      "image": "makeplane/plane-backend:latest",
+      "dependsOn": ["plane-api", "plane-db", "plane-redis", "plane-mq"],
+      "command": "celery -A plane beat -l info",
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/data/logs",
+          "containerPath": "/code/plane/logs",
+          "readOnly": false
+        }
+      ],
+      "environment": {
+        "DEBUG": "0",
+        "DJANGO_SETTINGS_MODULE": "plane.settings.production",
+        "DATABASE_URL": "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@plane-db:5432/${POSTGRES_DB}",
+        "REDIS_URL": "redis://plane-redis:6379/",
+        "SECRET_KEY": "${SECRET_KEY}",
+        "WEB_URL": "${WEB_URL}",
+        "CORS_ALLOWED_ORIGINS": "${CORS_ALLOWED_ORIGINS}",
+        "AWS_REGION": "us-east-1",
+        "AWS_ACCESS_KEY_ID": "plane",
+        "AWS_SECRET_ACCESS_KEY": "${POSTGRES_PASSWORD}",
+        "AWS_S3_ENDPOINT_URL": "http://plane-minio:9000",
+        "AWS_S3_BUCKET_NAME": "plane",
+        "CELERY_BROKER_URL": "amqp://plane:${POSTGRES_PASSWORD}@plane-mq:5672//",
+        "FILE_SIZE_LIMIT": "5242880"
+      }
+    },
+    {
+      "name": "plane-web",
+      "image": "makeplane/plane-frontend:latest",
+      "dependsOn": ["plane-api"],
+      "environment": {
+        "NEXT_PUBLIC_API_BASE_URL": "http://plane-api:8000"
+      }
+    },
+    {
+      "name": "plane-admin",
+      "image": "makeplane/plane-admin:latest",
+      "dependsOn": ["plane-api", "plane-web"],
+      "environment": {
+        "NEXT_PUBLIC_API_BASE_URL": "http://plane-api:8000"
+      }
+    },
+    {
+      "name": "plane-space",
+      "image": "makeplane/plane-space:latest",
+      "dependsOn": ["plane-api", "plane-web"],
+      "environment": {
+        "NEXT_PUBLIC_API_BASE_URL": "http://plane-api:8000"
+      }
+    },
+    {
+      "name": "plane-proxy",
+      "image": "makeplane/plane-proxy:latest",
+      "isMain": true,
+      "internalPort": 80,
+      "dependsOn": ["plane-web", "plane-admin", "plane-space", "plane-api"],
+      "environment": {
+        "FILE_SIZE_LIMIT": "5242880",
+        "BUCKET_NAME": "plane"
+      }
+    }
+  ]
+}

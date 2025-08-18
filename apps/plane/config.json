@@ -1,0 +1,97 @@
+{
+  "name": "Plane",
+  "id": "plane",
+  "available": true,
+  "short_desc": "Open source JIRA, Linear, Monday, and Asana alternative",
+  "author": "makeplane",
+  "port": 80,
+  "categories": [
+    "utilities"
+  ],
+  "description": "Open Source JIRA, Linear, Monday, and Asana Alternative. Plane helps you track your issues, epics, and cycles the easiest way on the planet.",
+  "tipi_version": 2,
+  "version": "0.28.0",
+  "source": "https://github.com/makeplane/plane",
+  "website": "https://plane.so",
+  "exposable": true,
+  "supported_architectures": [
+    "amd64",
+    "arm64"
+  ],
+  "created_at": 1723968443000,
+  "updated_at": 1723968443000,
+  "dynamic_config": true,
+  "form_fields": [
+    {
+      "type": "text",
+      "label": "Web URL",
+      "hint": "The full URL where Plane will be accessible (e.g., https://plane.yourdomain.com)",
+      "max": 200,
+      "min": 1,
+      "required": true,
+      "env_variable": "WEB_URL"
+    },
+    {
+      "type": "text",
+      "label": "CORS Allowed Origins",
+      "hint": "Comma-separated list of allowed origins for CORS (usually same as Web URL)",
+      "max": 500,
+      "min": 1,
+      "required": true,
+      "env_variable": "CORS_ALLOWED_ORIGINS"
+    },
+    {
+      "type": "text",
+      "label": "Database Name",
+      "max": 50,
+      "min": 3,
+      "required": true,
+      "env_variable": "POSTGRES_DB",
+      "default": "plane"
+    },
+    {
+      "type": "text",
+      "label": "Database User",
+      "max": 50,
+      "min": 3,
+      "required": true,
+      "env_variable": "POSTGRES_USER",
+      "default": "plane"
+    },
+    {
+      "type": "password",
+      "label": "Database Password",
+      "max": 50,
+      "min": 8,
+      "required": true,
+      "env_variable": "POSTGRES_PASSWORD"
+    },
+    {
+      "type": "text",
+      "label": "Redis Host",
+      "max": 100,
+      "min": 1,
+      "required": true,
+      "env_variable": "REDIS_HOST",
+      "default": "plane-redis"
+    },
+    {
+      "type": "number",
+      "label": "Redis Port",
+      "max": 65535,
+      "min": 1,
+      "required": true,
+      "env_variable": "REDIS_PORT",
+      "default": 6379
+    },
+    {
+      "type": "text",
+      "label": "Secret Key",
+      "hint": "Django secret key for encryption. Generate a random 50-character string.",
+      "max": 100,
+      "min": 20,
+      "required": true,
+      "env_variable": "SECRET_KEY"
+    }
+  ]
+}
