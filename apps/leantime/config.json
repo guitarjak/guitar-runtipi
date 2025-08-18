@@ -23,23 +23,6 @@
   "dynamic_config": true,
   "form_fields": [
     {
-      "type": "text",
-      "label": "Admin Username",
-      "max": 50,
-      "min": 3,
-      "required": true,
-      "env_variable": "LEAN_ADMIN_USER",
-      "default": "admin"
-    },
-    {
-      "type": "password",
-      "label": "Admin Password",
-      "max": 50,
-      "min": 8,
-      "required": true,
-      "env_variable": "LEAN_ADMIN_PASSWORD"
-    },
-    {
       "type": "email",
       "label": "Admin Email",
       "required": true,
@@ -87,42 +70,6 @@
       "min": 20,
       "required": true,
       "env_variable": "LEAN_SESSION_PASSWORD"
-    },
-    {
-      "type": "number",
-      "label": "Database Port",
-      "max": 65535,
-      "min": 1,
-      "required": true,
-      "env_variable": "LEAN_DB_PORT",
-      "default": 3306
-    },
-    {
-      "type": "number",
-      "label": "User ID (PUID)",
-      "hint": "User ID for file permissions (usually 1000)",
-      "max": 65535,
-      "min": 1,
-      "required": true,
-      "env_variable": "PUID",
-      "default": 1000
-    },
-    {
-      "type": "number",
-      "label": "Group ID (PGID)",
-      "hint": "Group ID for file permissions (usually 1000)",
-      "max": 65535,
-      "min": 1,
-      "required": true,
-      "env_variable": "PGID",
-      "default": 1000
-    },
-    {
-      "type": "boolean",
-      "label": "Enable Debug Mode",
-      "hint": "Enable debug logging for troubleshooting",
-      "required": false,
-      "env_variable": "LEAN_DEBUG"
     }
   ]
 }

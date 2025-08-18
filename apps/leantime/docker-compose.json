@@ -1,12 +1,11 @@
 {
   "services": [
     {
-      "name": "leantime-db",
+      "name": "leantime_db",
       "image": "mysql:8.4",
-      "internalPort": 3306,
       "volumes": [
         {
-          "hostPath": "${APP_DATA_DIR}/data/mysql",
+          "hostPath": "${APP_DATA_DIR}/data/db_data",
           "containerPath": "/var/lib/mysql",
           "readOnly": false
         }
@@ -15,44 +14,17 @@
         "MYSQL_ROOT_PASSWORD": "${MYSQL_ROOT_PASSWORD}",
         "MYSQL_DATABASE": "${LEAN_DB_DATABASE}",
         "MYSQL_USER": "${LEAN_DB_USER}",
-        "MYSQL_PASSWORD": "${LEAN_DB_PASSWORD}",
-        "MYSQL_ROOT_HOST": "%"
+        "MYSQL_PASSWORD": "${LEAN_DB_PASSWORD}"
       },
       "command": "--character-set-server=UTF8MB4 --collation-server=UTF8MB4_unicode_ci --default-authentication-plugin=mysql_native_password",
-      "healthCheck": {
-        "test": "mysqladmin ping -h localhost -u${LEAN_DB_USER} -p${LEAN_DB_PASSWORD}",
-        "interval": "10s",
-        "timeout": "5s",
-        "retries": 5,
-        "startPeriod": "30s"
-      },
       "restart": "unless-stopped"
-    },
-    {
-      "name": "leantime-init",
-      "image": "busybox:latest",
-      "command": "sh -c 'mkdir -p /data/public_userfiles /data/userfiles /data/plugins /data/logs && chown -R 1000:1000 /data && chmod -R 755 /data'",
-      "volumes": [
-        {
-          "hostPath": "${APP_DATA_DIR}/data",
-          "containerPath": "/data",
-          "readOnly": false
-        }
-      ]
-    },
-    {
-      "name": "leantime-db-wait",
-      "image": "busybox:latest",
-      "dependsOn": ["leantime-db"],
-      "command": "sh -c 'echo \"Waiting for database...\"; for i in $(seq 1 30); do nc -z leantime-db 3306 && echo \"Database is ready\" && exit 0; echo \"Waiting...\"; sleep 2; done; echo \"Database timeout\" && exit 1'"
     },
     {
       "name": "leantime",
       "image": "leantime/leantime:latest",
       "isMain": true,
       "internalPort": 8080,
-      "dependsOn": ["leantime-db", "leantime-init", "leantime-db-wait"],
-      "user": "${PUID}:${PGID}",
+      "dependsOn": ["leantime_db"],
       "volumes": [
         {
           "hostPath": "${APP_DATA_DIR}/data/public_userfiles",
@@ -76,20 +48,13 @@
         }
       ],
       "environment": {
-        "LEAN_DB_HOST": "leantime-db",
-        "LEAN_DB_PORT": "${LEAN_DB_PORT}",
+        "LEAN_DB_HOST": "leantime_db",
         "LEAN_DB_USER": "${LEAN_DB_USER}",
         "LEAN_DB_PASSWORD": "${LEAN_DB_PASSWORD}",
         "LEAN_DB_DATABASE": "${LEAN_DB_DATABASE}",
         "LEAN_EMAIL_RETURN": "${LEAN_EMAIL_RETURN}",
         "LEAN_APP_URL": "https://${APP_DOMAIN}",
-        "LEAN_SESSION_PASSWORD": "${LEAN_SESSION_PASSWORD}",
-        "LEAN_ADMIN_USER": "${LEAN_ADMIN_USER}",
-        "LEAN_ADMIN_PASSWORD": "${LEAN_ADMIN_PASSWORD}",
-        "LEAN_DEBUG": "${LEAN_DEBUG}",
-        "PUID": "${PUID}",
-        "PGID": "${PGID}",
-        "TZ": "${TZ}"
+        "LEAN_SESSION_PASSWORD": "${LEAN_SESSION_PASSWORD}"
       },
       "restart": "unless-stopped"
     }
