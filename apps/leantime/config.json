@@ -25,8 +25,29 @@
     {
       "type": "email",
       "label": "Admin Email",
+      "hint": "Email address for the admin account",
       "required": true,
       "env_variable": "LEAN_EMAIL_RETURN"
+    },
+    {
+      "type": "text",
+      "label": "App Name",
+      "hint": "Name of your Leantime instance",
+      "max": 100,
+      "min": 1,
+      "required": true,
+      "env_variable": "LEAN_SITENAME",
+      "default": "Leantime"
+    },
+    {
+      "type": "text",
+      "label": "Default Language",
+      "hint": "Language code (en-US, de-DE, etc.)",
+      "max": 10,
+      "min": 2,
+      "required": true,
+      "env_variable": "LEAN_LANGUAGE",
+      "default": "en-US"
     },
     {
       "type": "text",
@@ -65,7 +86,7 @@
     {
       "type": "text",
       "label": "Session Password",
-      "hint": "Random string for session encryption. Generate a random 50+ character string.",
+      "hint": "Random string for session encryption (minimum 20 characters)",
       "max": 100,
       "min": 20,
       "required": true,

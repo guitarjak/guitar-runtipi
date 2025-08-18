@@ -14,17 +14,38 @@
         "MYSQL_ROOT_PASSWORD": "${MYSQL_ROOT_PASSWORD}",
         "MYSQL_DATABASE": "${LEAN_DB_DATABASE}",
         "MYSQL_USER": "${LEAN_DB_USER}",
-        "MYSQL_PASSWORD": "${LEAN_DB_PASSWORD}"
+        "MYSQL_PASSWORD": "${LEAN_DB_PASSWORD}",
+        "MYSQL_CHARSET": "utf8mb4",
+        "MYSQL_COLLATION": "utf8mb4_unicode_ci"
       },
-      "command": "--character-set-server=UTF8MB4 --collation-server=UTF8MB4_unicode_ci --default-authentication-plugin=mysql_native_password",
+      "command": "--character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-authentication-plugin=mysql_native_password --sql_mode=STRICT_TRANS_TABLES,NO_ZERO_DATE,NO_ZERO_IN_DATE,ERROR_FOR_DIVISION_BY_ZERO",
+      "healthCheck": {
+        "test": "mysqladmin ping -h localhost",
+        "interval": "30s",
+        "timeout": "10s",
+        "retries": 5,
+        "startPeriod": "30s"
+      },
       "restart": "unless-stopped"
+    },
+    {
+      "name": "leantime-init",
+      "image": "busybox:latest",
+      "command": "sh -c 'mkdir -p /app-data/public_userfiles /app-data/userfiles /app-data/plugins /app-data/logs && chmod -R 777 /app-data && echo Permissions set successfully'",
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/data",
+          "containerPath": "/app-data",
+          "readOnly": false
+        }
+      ]
     },
     {
       "name": "leantime",
       "image": "leantime/leantime:latest",
       "isMain": true,
       "internalPort": 8080,
-      "dependsOn": ["leantime_db"],
+      "dependsOn": ["leantime_db", "leantime-init"],
       "volumes": [
         {
           "hostPath": "${APP_DATA_DIR}/data/public_userfiles",
@@ -49,12 +70,24 @@
       ],
       "environment": {
         "LEAN_DB_HOST": "leantime_db",
+        "LEAN_DB_PORT": "3306", 
         "LEAN_DB_USER": "${LEAN_DB_USER}",
         "LEAN_DB_PASSWORD": "${LEAN_DB_PASSWORD}",
         "LEAN_DB_DATABASE": "${LEAN_DB_DATABASE}",
         "LEAN_EMAIL_RETURN": "${LEAN_EMAIL_RETURN}",
         "LEAN_APP_URL": "https://${APP_DOMAIN}",
-        "LEAN_SESSION_PASSWORD": "${LEAN_SESSION_PASSWORD}"
+        "LEAN_SESSION_PASSWORD": "${LEAN_SESSION_PASSWORD}",
+        "LEAN_SITENAME": "${LEAN_SITENAME}",
+        "LEAN_LANGUAGE": "${LEAN_LANGUAGE}",
+        "LEAN_DEFAULT_TIMEZONE": "UTC",
+        "LEAN_ENABLE_MENU_TYPE": "true",
+        "LEAN_LDAP_USE_LDAP": "false",
+        "LEAN_LDAP_LDAP_TYPE": "OL",
+        "LEAN_S3_USE_S3": "false",
+        "LEAN_EMAIL_USE_SMTP": "false",
+        "LEAN_LOG_PATH": "/var/www/html/storage/logs",
+        "LEAN_SESSION_EXPIRATION": "28800",
+        "LEAN_DEBUG": "false"
       },
       "restart": "unless-stopped"
     }
