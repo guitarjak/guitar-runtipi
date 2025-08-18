@@ -18,19 +18,33 @@
       },
       "command": "--character-set-server=UTF8MB4 --collation-server=UTF8MB4_unicode_ci --default-authentication-plugin=mysql_native_password",
       "healthCheck": {
-        "test": "mysqladmin ping -h localhost",
-        "interval": "30s",
-        "timeout": "10s",
-        "retries": 3
+        "test": "mysqladmin ping -h localhost -u${LEAN_DB_USER} -p${LEAN_DB_PASSWORD}",
+        "interval": "10s",
+        "timeout": "5s",
+        "retries": 5,
+        "startPeriod": "30s"
       },
       "restart": "unless-stopped"
+    },
+    {
+      "name": "leantime-init",
+      "image": "busybox:latest",
+      "command": "sh -c 'mkdir -p /data/public_userfiles /data/userfiles /data/plugins /data/logs && chown -R 1000:1000 /data && chmod -R 755 /data'",
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/data",
+          "containerPath": "/data",
+          "readOnly": false
+        }
+      ]
     },
     {
       "name": "leantime",
       "image": "leantime/leantime:latest",
       "isMain": true,
       "internalPort": 8080,
-      "dependsOn": ["leantime-db"],
+      "dependsOn": ["leantime-db", "leantime-init"],
+      "user": "${PUID}:${PGID}",
       "volumes": [
         {
           "hostPath": "${APP_DATA_DIR}/data/public_userfiles",
