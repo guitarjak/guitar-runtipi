@@ -1,63 +1,73 @@
 # Leantime for Runtipi
 
+## Official Docker Configuration
+
+This Leantime configuration follows the **official Leantime Docker setup** exactly as documented.
+
 ## Important Setup Instructions
 
-After installing this app in Runtipi, you MUST complete the following steps:
+### 1. Install the App
 
-### 1. Complete the Installation Wizard
+Configure the required fields during installation:
+- **Database Name**: Default `leantime`
+- **Database User**: Default `leantime` 
+- **Database Password**: Create a strong password
+- **MySQL Root Password**: Create a strong root password
+- **Site Name**: Name for your Leantime instance
+- **Session Password**: Strong 20+ character password
 
-Once the containers are running:
+### 2. Complete Installation Wizard
 
-1. Open your Leantime URL: `https://your-domain.com`
-2. You will be redirected to the installation wizard
-3. Follow the setup wizard to:
-   - Configure your database connection (should auto-detect)
-   - Create your admin account
-   - Set up your first project
+**CRITICAL STEP**: After containers start, you MUST:
 
-### 2. Configuration Notes
+1. Go to your Leantime URL: `https://your-domain.com`
+2. Complete the installation wizard at `/install`
+3. Follow the setup steps to:
+   - Verify database connection
+   - Create admin account
+   - Initialize the application
 
-- **Database**: Uses MySQL 8.4 with proper UTF8MB4 support
-- **Volumes**: All user files, plugins, and logs are persisted
-- **Permissions**: Init container sets proper file permissions for Runtipi
-- **Language**: Default is en-US, configurable during setup
-- **Session Security**: Uses secure session encryption
+### 3. Configuration Notes
 
-### 3. Environment Variables
+This setup uses the **exact official Leantime Docker pattern**:
+- **Port 80**: Standard Leantime port (not 8080)
+- **MySQL 8.0**: With UTF8MB4 character set
+- **Minimal volumes**: Only userfiles mounted
+- **Official service names**: `mysql_leantime` and `leantime`
+- **Minimal environment**: Only essential variables
 
-Required variables that will be configured during app installation:
+### 4. After Installation
 
-- `LEAN_EMAIL_RETURN`: Admin email address
-- `LEAN_SITENAME`: Name of your Leantime instance  
-- `LEAN_LANGUAGE`: Language code (e.g., en-US)
-- `LEAN_SESSION_PASSWORD`: Secure random string (20+ characters)
-- Database credentials (automatically configured)
-
-### 4. First Login
-
-After completing the installation wizard:
-
-1. Go to your Leantime URL
-2. Log in with the admin credentials you created
-3. Start creating projects and managing tasks!
+1. Log in with your admin credentials
+2. Start creating projects and tasks
+3. Explore Leantime's features:
+   - Kanban boards and Gantt charts
+   - Time tracking and reporting
+   - Team collaboration tools
+   - Project planning features
 
 ### 5. Troubleshooting
 
 If you encounter issues:
 
-1. Check that all containers are running in Runtipi
-2. Ensure you completed the `/install` wizard
-3. Verify your database credentials are correct
-4. Check container logs for any error messages
+1. Ensure you completed the `/install` wizard
+2. Check that both containers are running
+3. Verify database credentials match
+4. Check container logs in Runtipi
 
-### 6. Features
+### 6. Official Documentation
 
-- Task management via Kanban boards, Gantt charts, lists
-- Project planning and goal tracking  
-- Team collaboration and file sharing
-- Time tracking and reporting
-- Built-in wikis and documentation
-- Mobile responsive interface
-- Available in 20+ languages
+For detailed usage instructions:
+- [Leantime Documentation](https://docs.leantime.io)
+- [Official Docker Setup](https://github.com/Leantime/docker-leantime)
 
-For more information, visit [Leantime Documentation](https://docs.leantime.io)
+## Why This Configuration Works
+
+This follows the **exact pattern** from Leantime's official Docker documentation:
+- Uses the same service names (`mysql_leantime`)
+- Uses the same port (80) 
+- Uses minimal environment variables
+- Mounts only the necessary volumes
+- No complex health checks or init containers
+
+This ensures maximum compatibility with Leantime's expected setup.

@@ -4,7 +4,7 @@
   "available": true,
   "short_desc": "Open source project management for non-project managers",
   "author": "Leantime",
-  "port": 8080,
+  "port": 80,
   "categories": [
     "utilities"
   ],
@@ -23,39 +23,12 @@
   "dynamic_config": true,
   "form_fields": [
     {
-      "type": "email",
-      "label": "Admin Email",
-      "hint": "Email address for the admin account",
-      "required": true,
-      "env_variable": "LEAN_EMAIL_RETURN"
-    },
-    {
-      "type": "text",
-      "label": "App Name",
-      "hint": "Name of your Leantime instance",
-      "max": 100,
-      "min": 1,
-      "required": true,
-      "env_variable": "LEAN_SITENAME",
-      "default": "Leantime"
-    },
-    {
-      "type": "text",
-      "label": "Default Language",
-      "hint": "Language code (en-US, de-DE, etc.)",
-      "max": 10,
-      "min": 2,
-      "required": true,
-      "env_variable": "LEAN_LANGUAGE",
-      "default": "en-US"
-    },
-    {
       "type": "text",
       "label": "Database Name",
       "max": 50,
       "min": 3,
       "required": true,
-      "env_variable": "LEAN_DB_DATABASE",
+      "env_variable": "MYSQL_DATABASE",
       "default": "leantime"
     },
     {
@@ -64,7 +37,7 @@
       "max": 50,
       "min": 3,
       "required": true,
-      "env_variable": "LEAN_DB_USER",
+      "env_variable": "MYSQL_USER",
       "default": "leantime"
     },
     {
@@ -73,7 +46,7 @@
       "max": 50,
       "min": 8,
       "required": true,
-      "env_variable": "LEAN_DB_PASSWORD"
+      "env_variable": "MYSQL_PASSWORD"
     },
     {
       "type": "password",
@@ -85,8 +58,18 @@
     },
     {
       "type": "text",
+      "label": "Site Name",
+      "hint": "Name of your Leantime instance",
+      "max": 100,
+      "min": 1,
+      "required": true,
+      "env_variable": "LEAN_SITENAME",
+      "default": "Leantime"
+    },
+    {
+      "type": "text",
       "label": "Session Password",
-      "hint": "Random string for session encryption (minimum 20 characters)",
+      "hint": "Strong password for session encryption (minimum 20 characters)",
       "max": 100,
       "min": 20,
       "required": true,
