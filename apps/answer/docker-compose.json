@@ -1,0 +1,18 @@
+{
+  "services": [
+    {
+      "name": "answer",
+      "image": "apache/answer:latest",
+      "isMain": true,
+      "internalPort": "80",
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/data",
+          "containerPath": "/data",
+          "readOnly": false
+        }
+      ],
+      "restart": "unless-stopped"
+    }
+  ]
+}

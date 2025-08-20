@@ -1,0 +1,26 @@
+{
+  "urn": "runtipi:answer",
+  "name": "Apache Answer",
+  "id": "answer",
+  "available": true,
+  "short_desc": "Open source Q&A platform software for teams at any scales",
+  "author": "Apache Software Foundation",
+  "port": 9080,
+  "categories": [
+    "utilities"
+  ],
+  "description": "Apache Answer is a Q&A platform software for teams at any scales. Whether you're a team or community, you can use it to build a help center, community forum, or knowledge management platform.",
+  "tipi_version": 2,
+  "version": "1.6.0",
+  "source": "https://github.com/apache/answer",
+  "website": "https://answer.apache.org",
+  "exposable": true,
+  "supported_architectures": [
+    "amd64",
+    "arm64"
+  ],
+  "created_at": 1755644912000,
+  "updated_at": 1755644912000,
+  "dynamic_config": true,
+  "form_fields": []
+}
