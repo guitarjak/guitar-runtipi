@@ -5,7 +5,7 @@
   "available": true,
   "short_desc": "Open source project management for non-project managers",
   "author": "Leantime",
-  "port": 80,
+  "port": 8080,
   "categories": [
     "utilities"
   ],

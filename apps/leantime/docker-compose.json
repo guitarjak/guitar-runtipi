@@ -29,7 +29,7 @@
       "name": "leantime",
       "image": "leantime/leantime:latest",
       "isMain": true,
-      "internalPort": "80",
+      "internalPort": "8080",
       "dependsOn": ["mysql_leantime"],
       "volumes": [
         {
