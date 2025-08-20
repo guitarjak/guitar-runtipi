@@ -16,6 +16,12 @@
         "MYSQL_USER": "${MYSQL_USER}",
         "MYSQL_PASSWORD": "${MYSQL_PASSWORD}"
       },
+      "healthCheck": {
+        "test": "mysqladmin ping -h localhost -u root -p${MYSQL_ROOT_PASSWORD}",
+        "interval": "30s",
+        "timeout": "10s",
+        "retries": 5
+      },
       "command": "--character-set-server=UTF8MB4 --collation-server=UTF8MB4_unicode_ci",
       "restart": "unless-stopped"
     },
@@ -23,14 +29,9 @@
       "name": "leantime",
       "image": "leantime/leantime:latest",
       "isMain": true,
-      "internalPort": 80,
+      "internalPort": "80",
       "dependsOn": ["mysql_leantime"],
       "volumes": [
-        {
-          "hostPath": "${APP_DATA_DIR}/data/userfiles",
-          "containerPath": "/var/www/html/public/userfiles",
-          "readOnly": false
-        },
         {
           "hostPath": "${APP_DATA_DIR}/data/userfiles",
           "containerPath": "/var/www/html/userfiles",
