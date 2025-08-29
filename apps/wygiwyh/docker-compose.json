@@ -5,7 +5,6 @@
       "image": "eitchtee/wygiwyh:latest",
       "isMain": true,
       "internalPort": "8000",
-      "command": "/start-single",
       "environment": {
         "TZ": "UTC",
         "DEBUG": "false",
@@ -22,14 +21,12 @@
         "ENABLE_SOFT_DELETE": "${ENABLE_SOFT_DELETE:-false}",
         "KEEP_DELETED_TRANSACTIONS_FOR": "365",
         "TASK_WORKERS": "1",
-        "ADMIN_EMAIL": "${ADMIN_EMAIL:-}",
-        "ADMIN_PASSWORD": "${ADMIN_PASSWORD:-}",
         "CHECK_FOR_UPDATES": "${CHECK_FOR_UPDATES:-true}"
       },
       "volumes": [
         {
-          "hostPath": "${APP_DATA_DIR}/media",
-          "containerPath": "/app/media"
+          "hostPath": "${APP_DATA_DIR}/userfiles",
+          "containerPath": "/var/www/html/userfiles"
         }
       ],
       "dependsOn": ["wygiwyh-db"]
