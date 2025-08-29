@@ -17,6 +17,9 @@
         "SQL_PASSWORD": "wygiwyh-password",
         "SQL_HOST": "wygiwyh-postgres",
         "SQL_PORT": "5432",
+        "SERVER_NAME": "wygiwyh_server",
+        "DB_NAME": "wygiwyh_postgres",
+        "OUTBOUND_PORT": "8000",
         "SESSION_EXPIRY_TIME": "2678400",
         "ENABLE_SOFT_DELETE": "${ENABLE_SOFT_DELETE:-false}",
         "KEEP_DELETED_TRANSACTIONS_FOR": "365",
@@ -34,7 +37,8 @@
           "containerPath": "/app/media"
         }
       ],
-      "dependsOn": ["wygiwyh-postgres"]
+      "dependsOn": ["wygiwyh-postgres"],
+      "restart": "unless-stopped"
     },
     {
       "name": "wygiwyh-postgres",
@@ -49,7 +53,8 @@
           "hostPath": "${APP_DATA_DIR}/postgres",
           "containerPath": "/var/lib/postgresql/data"
         }
-      ]
+      ],
+      "restart": "unless-stopped"
     }
   ]
 }
