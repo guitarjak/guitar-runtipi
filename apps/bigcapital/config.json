@@ -1,0 +1,142 @@
+{
+  "name": "BigCapital",
+  "id": "bigcapital",
+  "available": true,
+  "short_desc": "Smart open-source accounting and inventory software",
+  "author": "BigCapital Team",
+  "port": 8000,
+  "categories": ["finance"],
+  "description": "BigCapital is a smart and open-source accounting and inventory software designed to help businesses manage finances, automate accounting processes, and generate intelligent financial reports. Features include double-entry accounting, inventory management, financial reporting, and API integration.",
+  "tipi_version": 2,
+  "version": "v0.15.2",
+  "source": "https://github.com/bigcapitalhq/bigcapital",
+  "website": "https://bigcapital.app",
+  "exposable": true,
+  "supported_architectures": [
+    "amd64",
+    "arm64"
+  ],
+  "created_at": 1725000000000,
+  "updated_at": 1725000000000,
+  "dynamic_config": true,
+  "form_fields": [
+    {
+      "type": "text",
+      "label": "Application Base URL",
+      "hint": "The full URL where BigCapital will be accessible (e.g., https://bigcapital.yourdomain.com)",
+      "max": 200,
+      "min": 1,
+      "required": true,
+      "env_variable": "BASE_URL"
+    },
+    {
+      "type": "password",
+      "label": "JWT Secret",
+      "hint": "Secret key for JWT token encryption (generate a strong random string)",
+      "max": 100,
+      "min": 32,
+      "required": true,
+      "env_variable": "JWT_SECRET"
+    },
+    {
+      "type": "text",
+      "label": "Database User",
+      "hint": "MySQL/MariaDB username",
+      "max": 50,
+      "min": 1,
+      "required": true,
+      "env_variable": "DB_USER",
+      "default": "bigcapital"
+    },
+    {
+      "type": "password",
+      "label": "Database Password",
+      "hint": "MySQL/MariaDB password",
+      "max": 100,
+      "min": 8,
+      "required": true,
+      "env_variable": "DB_PASSWORD"
+    },
+    {
+      "type": "password",
+      "label": "Database Root Password",
+      "hint": "MySQL/MariaDB root password",
+      "max": 100,
+      "min": 8,
+      "required": true,
+      "env_variable": "DB_ROOT_PASSWORD"
+    },
+    {
+      "type": "text",
+      "label": "System Database Name",
+      "hint": "Name for the system database",
+      "max": 50,
+      "min": 1,
+      "required": true,
+      "env_variable": "SYSTEM_DB_NAME",
+      "default": "bigcapital_system"
+    },
+    {
+      "type": "text",
+      "label": "Mail Host",
+      "hint": "SMTP server hostname (optional)",
+      "max": 100,
+      "min": 1,
+      "required": false,
+      "env_variable": "MAIL_HOST"
+    },
+    {
+      "type": "text",
+      "label": "Mail Username",
+      "hint": "SMTP username (optional)",
+      "max": 100,
+      "min": 1,
+      "required": false,
+      "env_variable": "MAIL_USERNAME"
+    },
+    {
+      "type": "password",
+      "label": "Mail Password",
+      "hint": "SMTP password (optional)",
+      "max": 100,
+      "min": 1,
+      "required": false,
+      "env_variable": "MAIL_PASSWORD"
+    },
+    {
+      "type": "text",
+      "label": "Mail Port",
+      "hint": "SMTP port (default: 587)",
+      "max": 10,
+      "min": 1,
+      "required": false,
+      "env_variable": "MAIL_PORT",
+      "default": "587"
+    },
+    {
+      "type": "text",
+      "label": "Mail From Address",
+      "hint": "Sender email address (optional)",
+      "max": 100,
+      "min": 1,
+      "required": false,
+      "env_variable": "MAIL_FROM_ADDRESS"
+    },
+    {
+      "type": "text",
+      "label": "Mail From Name",
+      "hint": "Sender name (optional)",
+      "max": 100,
+      "min": 1,
+      "required": false,
+      "env_variable": "MAIL_FROM_NAME"
+    },
+    {
+      "type": "boolean",
+      "label": "Disable Signup",
+      "hint": "Disable new user registration",
+      "required": false,
+      "env_variable": "SIGNUP_DISABLED"
+    }
+  ]
+}

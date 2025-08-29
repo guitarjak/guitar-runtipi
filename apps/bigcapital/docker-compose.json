@@ -1,0 +1,141 @@
+{
+  "services": [
+    {
+      "name": "bigcapital-webapp",
+      "image": "ghcr.io/bigcapitalhq/webapp:latest",
+      "isMain": true,
+      "internalPort": "3000",
+      "dependsOn": ["bigcapital-server"],
+      "environment": {
+        "NEXT_PUBLIC_BASE_URL": "${BASE_URL}"
+      },
+      "restart": "unless-stopped"
+    },
+    {
+      "name": "bigcapital-server",
+      "image": "ghcr.io/bigcapitalhq/server:latest",
+      "internalPort": "3000",
+      "dependsOn": ["bigcapital-mysql", "bigcapital-mongodb", "bigcapital-redis", "bigcapital-migration"],
+      "environment": {
+        "BASE_URL": "${BASE_URL}",
+        "JWT_SECRET": "${JWT_SECRET}",
+        "DB_HOST": "bigcapital-mysql",
+        "DB_USER": "${DB_USER}",
+        "DB_PASSWORD": "${DB_PASSWORD}",
+        "DB_CHARSET": "utf8",
+        "SYSTEM_DB_NAME": "${SYSTEM_DB_NAME}",
+        "TENANT_DB_NAME_PERFIX": "bigcapital_tenant",
+        "MONGODB_DATABASE_URL": "mongodb://bigcapital-mongodb:27017/bigcapital",
+        "REDIS_HOST": "bigcapital-redis",
+        "REDIS_PORT": "6379",
+        "GOTENBERG_URL": "http://bigcapital-gotenberg:3000",
+        "MAIL_HOST": "${MAIL_HOST}",
+        "MAIL_USERNAME": "${MAIL_USERNAME}",
+        "MAIL_PASSWORD": "${MAIL_PASSWORD}",
+        "MAIL_PORT": "${MAIL_PORT}",
+        "MAIL_FROM_ADDRESS": "${MAIL_FROM_ADDRESS}",
+        "MAIL_FROM_NAME": "${MAIL_FROM_NAME}",
+        "SIGNUP_DISABLED": "${SIGNUP_DISABLED}",
+        "NODE_ENV": "production"
+      },
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/uploads",
+          "containerPath": "/app/uploads"
+        }
+      ],
+      "restart": "unless-stopped"
+    },
+    {
+      "name": "bigcapital-mysql",
+      "image": "mariadb:10.11",
+      "environment": {
+        "MYSQL_DATABASE": "${SYSTEM_DB_NAME}",
+        "MYSQL_USER": "${DB_USER}",
+        "MYSQL_PASSWORD": "${DB_PASSWORD}",
+        "MYSQL_ROOT_PASSWORD": "${DB_ROOT_PASSWORD}",
+        "MYSQL_CHARSET": "utf8"
+      },
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/mysql",
+          "containerPath": "/var/lib/mysql"
+        }
+      ],
+      "healthCheck": {
+        "test": "mysqladmin ping -h localhost -u ${DB_USER} -p${DB_PASSWORD}",
+        "interval": "30s",
+        "timeout": "10s",
+        "retries": 5
+      },
+      "restart": "unless-stopped"
+    },
+    {
+      "name": "bigcapital-mongodb",
+      "image": "mongo:6.0",
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/mongodb",
+          "containerPath": "/data/db"
+        }
+      ],
+      "healthCheck": {
+        "test": "echo 'db.runCommand(\"ping\").ok' | mongosh localhost:27017/test --quiet",
+        "interval": "30s",
+        "timeout": "10s",
+        "retries": 5
+      },
+      "restart": "unless-stopped"
+    },
+    {
+      "name": "bigcapital-redis",
+      "image": "redis:7.2-alpine",
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/redis",
+          "containerPath": "/data"
+        }
+      ],
+      "healthCheck": {
+        "test": "redis-cli ping",
+        "interval": "30s",
+        "timeout": "10s",
+        "retries": 5
+      },
+      "restart": "unless-stopped"
+    },
+    {
+      "name": "bigcapital-migration",
+      "image": "ghcr.io/bigcapitalhq/migration:latest",
+      "dependsOn": ["bigcapital-mysql"],
+      "environment": {
+        "DB_HOST": "bigcapital-mysql",
+        "DB_USER": "${DB_USER}",
+        "DB_PASSWORD": "${DB_PASSWORD}",
+        "DB_CHARSET": "utf8",
+        "SYSTEM_DB_NAME": "${SYSTEM_DB_NAME}",
+        "TENANT_DB_NAME_PERFIX": "bigcapital_tenant"
+      },
+      "restart": "on-failure"
+    },
+    {
+      "name": "bigcapital-gotenberg",
+      "image": "gotenberg/gotenberg:7",
+      "restart": "unless-stopped"
+    },
+    {
+      "name": "bigcapital-proxy",
+      "image": "envoyproxy/envoy:v1.27-latest",
+      "dependsOn": ["bigcapital-webapp", "bigcapital-server"],
+      "internalPort": "8000",
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/envoy/envoy.yaml",
+          "containerPath": "/etc/envoy/envoy.yaml",
+          "readOnly": true
+        }
+      ],
+      "restart": "unless-stopped"
+    }
+  ]
+}
