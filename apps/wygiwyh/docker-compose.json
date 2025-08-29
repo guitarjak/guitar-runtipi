@@ -16,7 +16,7 @@
         "SQL_DATABASE": "wygiwyh",
         "SQL_USER": "wygiwyh",
         "SQL_PASSWORD": "wygiwyh-password",
-        "SQL_HOST": "db",
+        "SQL_HOST": "wygiwyh-db",
         "SQL_PORT": "5432",
         "SESSION_EXPIRY_TIME": "2678400",
         "ENABLE_SOFT_DELETE": "${ENABLE_SOFT_DELETE:-false}",
@@ -27,22 +27,30 @@
         "ADMIN_PASSWORD": "${ADMIN_PASSWORD:-}",
         "CHECK_FOR_UPDATES": "${CHECK_FOR_UPDATES:-true}"
       },
-      "dependsOn": ["db"]
+      "dependsOn": ["wygiwyh-db"]
     },
     {
-      "name": "db",
+      "name": "wygiwyh-db",
       "image": "postgres:15",
       "environment": {
         "POSTGRES_DB": "wygiwyh",
         "POSTGRES_USER": "wygiwyh",
-        "POSTGRES_PASSWORD": "wygiwyh-password"
+        "POSTGRES_PASSWORD": "wygiwyh-password",
+        "POSTGRES_INITDB_ARGS": "--auth-host=scram-sha-256 --auth-local=scram-sha-256"
       },
       "volumes": [
         {
           "hostPath": "${APP_DATA_DIR}/postgres",
           "containerPath": "/var/lib/postgresql/data"
         }
-      ]
+      ],
+      "healthCheck": {
+        "test": ["CMD-SHELL", "pg_isready -U wygiwyh -d wygiwyh"],
+        "interval": "10s",
+        "timeout": "5s",
+        "retries": 5,
+        "startPeriod": "30s"
+      }
     }
   ]
 }
