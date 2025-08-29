@@ -5,19 +5,18 @@
       "image": "eitchtee/wygiwyh:latest",
       "isMain": true,
       "internalPort": "8000",
-      "command": "/start-single",
       "environment": {
         "SERVER_NAME": "wygiwyh_server",
         "DB_NAME": "wygiwyh_postgres",
         "TZ": "UTC",
         "DEBUG": "false",
-        "URL": "${URL}",
+        "URL": "${URL:-http://localhost:8000}",
         "HTTPS_ENABLED": "${HTTPS_ENABLED:-false}",
-        "SECRET_KEY": "${SECRET_KEY}",
-        "DJANGO_ALLOWED_HOSTS": "${LOCAL_DOMAIN}",
+        "SECRET_KEY": "${SECRET_KEY:-changeme-secret-key-for-development}",
+        "DJANGO_ALLOWED_HOSTS": "${LOCAL_DOMAIN} localhost 127.0.0.1",
         "OUTBOUND_PORT": "8000",
-        "ADMIN_EMAIL": "${ADMIN_EMAIL}",
-        "ADMIN_PASSWORD": "${ADMIN_PASSWORD}",
+        "ADMIN_EMAIL": "${ADMIN_EMAIL:-}",
+        "ADMIN_PASSWORD": "${ADMIN_PASSWORD:-}",
         "SQL_DATABASE": "wygiwyh",
         "SQL_USER": "wygiwyh",
         "SQL_PASSWORD": "wygiwyh-password",
@@ -35,8 +34,7 @@
           "containerPath": "/app/media"
         }
       ],
-      "dependsOn": ["wygiwyh_postgres"],
-      "restart": "unless-stopped"
+      "dependsOn": ["wygiwyh_postgres"]
     },
     {
       "name": "wygiwyh_postgres",
@@ -51,8 +49,7 @@
           "hostPath": "${APP_DATA_DIR}/postgres",
           "containerPath": "/var/lib/postgresql/data"
         }
-      ],
-      "restart": "unless-stopped"
+      ]
     }
   ]
 }
