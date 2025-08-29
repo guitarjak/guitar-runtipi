@@ -1,0 +1,84 @@
+{
+  "name": "WYGIWYH",
+  "id": "wygiwyh",
+  "available": true,
+  "short_desc": "💰 An opinionated and powerful finance tracker with multi-currency support",
+  "author": "eitchtee",
+  "port": 8000,
+  "categories": [
+    "finance",
+    "productivity"
+  ],
+  "description": "WYGIWYH (What You Get Is What You Have) is a powerful, principles-first finance tracker designed for people who prefer a no-budget, straightforward approach to managing their money. Features multi-currency support, customizable transactions, built-in dollar-cost averaging tracker, and API automation.",
+  "tipi_version": 2,
+  "version": "0.16.2",
+  "source": "https://github.com/eitchtee/WYGIWYH",
+  "website": "https://wygiwyh-demo.herculino.com",
+  "exposable": true,
+  "supported_architectures": [
+    "amd64",
+    "arm64"
+  ],
+  "created_at": 1735516800000,
+  "updated_at": 1735516800000,
+  "dynamic_config": true,
+  "form_fields": [
+    {
+      "type": "text",
+      "label": "Application URL",
+      "hint": "The full URL where WYGIWYH will be accessible (e.g., https://wygiwyh.yourdomain.com)",
+      "max": 200,
+      "min": 1,
+      "required": true,
+      "env_variable": "URL"
+    },
+    {
+      "type": "text",
+      "label": "Django Secret Key",
+      "hint": "Random string for cryptographic signing. Make it long and unique (50+ characters)",
+      "max": 200,
+      "min": 50,
+      "required": true,
+      "env_variable": "SECRET_KEY"
+    },
+    {
+      "type": "text",
+      "label": "Admin Email",
+      "hint": "Email address for the first admin account (optional)",
+      "max": 100,
+      "min": 0,
+      "required": false,
+      "env_variable": "ADMIN_EMAIL"
+    },
+    {
+      "type": "password",
+      "label": "Admin Password",
+      "hint": "Password for the first admin account (optional, requires admin email)",
+      "max": 100,
+      "min": 8,
+      "required": false,
+      "env_variable": "ADMIN_PASSWORD"
+    },
+    {
+      "type": "boolean",
+      "label": "Enable HTTPS",
+      "hint": "Enable secure cookies for HTTPS connections",
+      "required": false,
+      "env_variable": "HTTPS_ENABLED"
+    },
+    {
+      "type": "boolean",
+      "label": "Enable Soft Delete",
+      "hint": "Keep deleted transactions in database for recovery",
+      "required": false,
+      "env_variable": "ENABLE_SOFT_DELETE"
+    },
+    {
+      "type": "boolean",
+      "label": "Check for Updates",
+      "hint": "Allow checking for new versions via GitHub API",
+      "required": false,
+      "env_variable": "CHECK_FOR_UPDATES"
+    }
+  ]
+}
