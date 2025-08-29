@@ -43,6 +43,24 @@
       "env_variable": "SECRET_KEY"
     },
     {
+      "type": "text",
+      "label": "Admin Email",
+      "hint": "Email address for the first admin account (optional)",
+      "max": 100,
+      "min": 0,
+      "required": false,
+      "env_variable": "ADMIN_EMAIL"
+    },
+    {
+      "type": "password",
+      "label": "Admin Password",
+      "hint": "Password for the first admin account (optional, requires admin email)",
+      "max": 100,
+      "min": 8,
+      "required": false,
+      "env_variable": "ADMIN_PASSWORD"
+    },
+    {
       "type": "boolean",
       "label": "Enable HTTPS",
       "hint": "Enable secure cookies for HTTPS connections",
