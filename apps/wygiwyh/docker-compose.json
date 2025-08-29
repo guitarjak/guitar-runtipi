@@ -5,6 +5,7 @@
       "image": "eitchtee/wygiwyh:latest",
       "isMain": true,
       "internalPort": "8000",
+      "command": "/start-single",
       "environment": {
         "DJANGO_ALLOWED_HOSTS": "${LOCAL_DOMAIN}",
         "HTTPS_ENABLED": "${HTTPS_ENABLED:-false}",
@@ -23,7 +24,9 @@
         "DEMO": "false",
         "ADMIN_EMAIL": "${ADMIN_EMAIL}",
         "ADMIN_PASSWORD": "${ADMIN_PASSWORD}",
-        "CHECK_FOR_UPDATES": "${CHECK_FOR_UPDATES:-true}"
+        "CHECK_FOR_UPDATES": "${CHECK_FOR_UPDATES:-true}",
+        "TZ": "UTC",
+        "WEB_CONCURRENCY": "4"
       },
       "volumes": [
         {
@@ -35,7 +38,7 @@
     },
     {
       "name": "wygiwyh-postgres",
-      "image": "postgres:15-alpine",
+      "image": "postgres:15",
       "environment": {
         "POSTGRES_DB": "wygiwyh",
         "POSTGRES_USER": "wygiwyh",
