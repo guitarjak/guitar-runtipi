@@ -7,7 +7,7 @@
   "port": 8000,
   "categories": [
     "finance",
-    "productivity"
+    "utilities"
   ],
   "description": "WYGIWYH (What You Get Is What You Have) is a powerful, principles-first finance tracker designed for people who prefer a no-budget, straightforward approach to managing their money. Features multi-currency support, customizable transactions, built-in dollar-cost averaging tracker, and API automation.",
   "tipi_version": 2,
