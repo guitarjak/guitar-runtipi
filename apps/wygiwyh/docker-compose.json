@@ -5,27 +5,24 @@
       "image": "eitchtee/wygiwyh:latest",
       "isMain": true,
       "internalPort": "8000",
+      "command": "/start-single",
       "environment": {
-        "SERVER_NAME": "wygiwyh_server",
-        "DB_NAME": "wygiwyh_postgres",
         "TZ": "UTC",
         "DEBUG": "false",
-        "URL": "${URL:-http://localhost:8000}",
         "HTTPS_ENABLED": "${HTTPS_ENABLED:-false}",
-        "SECRET_KEY": "${SECRET_KEY:-changeme-secret-key-for-development}",
-        "DJANGO_ALLOWED_HOSTS": "${LOCAL_DOMAIN} localhost 127.0.0.1",
-        "OUTBOUND_PORT": "8000",
-        "ADMIN_EMAIL": "${ADMIN_EMAIL:-}",
-        "ADMIN_PASSWORD": "${ADMIN_PASSWORD:-}",
+        "SECRET_KEY": "${SECRET_KEY}",
+        "DJANGO_ALLOWED_HOSTS": "${LOCAL_DOMAIN} localhost 127.0.0.1 [::1]",
         "SQL_DATABASE": "wygiwyh",
         "SQL_USER": "wygiwyh",
         "SQL_PASSWORD": "wygiwyh-password",
-        "SQL_HOST": "wygiwyh_postgres",
+        "SQL_HOST": "wygiwyh-db",
         "SQL_PORT": "5432",
-        "WEB_CONCURRENCY": "4",
+        "SESSION_EXPIRY_TIME": "2678400",
         "ENABLE_SOFT_DELETE": "${ENABLE_SOFT_DELETE:-false}",
         "KEEP_DELETED_TRANSACTIONS_FOR": "365",
         "TASK_WORKERS": "1",
+        "ADMIN_EMAIL": "${ADMIN_EMAIL:-}",
+        "ADMIN_PASSWORD": "${ADMIN_PASSWORD:-}",
         "CHECK_FOR_UPDATES": "${CHECK_FOR_UPDATES:-true}"
       },
       "volumes": [
@@ -34,10 +31,10 @@
           "containerPath": "/app/media"
         }
       ],
-      "dependsOn": ["wygiwyh_postgres"]
+      "dependsOn": ["wygiwyh-db"]
     },
     {
-      "name": "wygiwyh_postgres",
+      "name": "wygiwyh-db",
       "image": "postgres:15",
       "environment": {
         "POSTGRES_DB": "wygiwyh",
