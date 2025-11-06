@@ -1,0 +1,107 @@
+{
+  "services": [
+    {
+      "name": "unibee-admin-portal",
+      "image": "unibee/admin-portal:v1.7.3",
+      "isMain": true,
+      "internalPort": "80",
+      "environment": {
+        "UNIBEE_API_URL": "${UNIBEE_API_URL}"
+      },
+      "dependsOn": ["unibee-api"],
+      "restart": "unless-stopped"
+    },
+    {
+      "name": "unibee-db",
+      "image": "mysql:8.0.37",
+      "environment": {
+        "MYSQL_DATABASE": "${DB_DATABASE}",
+        "MYSQL_USER": "${DB_USER}",
+        "MYSQL_PASSWORD": "${DB_PASSWORD}",
+        "MYSQL_ROOT_PASSWORD": "${DB_ROOT_PASSWORD}",
+        "MYSQL_PORT": "3306"
+      },
+      "healthCheck": {
+        "test": "mysqladmin ping -h localhost",
+        "interval": "30s",
+        "timeout": "20s",
+        "retries": 10
+      },
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/data/mysql",
+          "containerPath": "/var/lib/mysql"
+        }
+      ],
+      "command": "--character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci",
+      "restart": "unless-stopped"
+    },
+    {
+      "name": "unibee-redis",
+      "image": "redis:6",
+      "command": "--port 6379 --requirepass ${REDIS_PASSWORD}",
+      "healthCheck": {
+        "test": "redis-cli --raw incr ping",
+        "interval": "30s",
+        "timeout": "10s",
+        "retries": 5
+      },
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/data/redis",
+          "containerPath": "/data"
+        }
+      ],
+      "restart": "unless-stopped"
+    },
+    {
+      "name": "unibee-api",
+      "image": "unibee/api:v1.7.3",
+      "dependsOn": ["unibee-db", "unibee-redis"],
+      "healthCheck": {
+        "test": "curl -f http://127.0.0.1/health || exit 1",
+        "interval": "10s",
+        "timeout": "60s",
+        "retries": 5
+      },
+      "environment": {
+        "UNIBEE_API_URL": "${UNIBEE_API_URL}",
+        "SERVER_ADDRESS": "80",
+        "DATABASE_LINK": "mysql:root:${DB_ROOT_PASSWORD}@tcp(unibee-db:3306)/${DB_DATABASE}?loc=UTC&parseTime=false",
+        "REDIS_ADDRESS": "unibee-redis:6379",
+        "REDIS_PASSWORD": "${REDIS_PASSWORD}",
+        "UNIBEE_LICENSE": "${UNIBEE_LICENSE}",
+        "ENV": "prod",
+        "MODE": "stand-alone"
+      },
+      "restart": "unless-stopped"
+    },
+    {
+      "name": "unibee-license-api",
+      "image": "unibee/license-api:v1.0.2-premium",
+      "dependsOn": ["unibee-redis"],
+      "healthCheck": {
+        "test": "curl -f http://127.0.0.1/health || exit 1",
+        "interval": "10s",
+        "timeout": "60s",
+        "retries": 5
+      },
+      "environment": {
+        "REDIS_ADDRESS": "unibee-redis:6379",
+        "SERVER_ADDRESS": "80",
+        "REDIS_PASSWORD": "${REDIS_PASSWORD}",
+        "ENV": "prod",
+        "MODE": "stand-alone"
+      },
+      "restart": "unless-stopped"
+    },
+    {
+      "name": "unibee-user-portal",
+      "image": "unibee/user-portal:v1.7.3",
+      "environment": {
+        "UNIBEE_API_URL": "${UNIBEE_API_URL}"
+      },
+      "restart": "unless-stopped"
+    }
+  ]
+}
