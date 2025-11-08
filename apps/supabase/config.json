@@ -1,9 +1,9 @@
 {
   "name": "Supabase",
   "id": "supabase",
-  "port": 8000,
+  "port": 3000,
   "available": true,
-  "short_desc": "Open source Firebase alternative with PostgreSQL, Auth, Storage, and Real-time subscriptions",
+  "short_desc": "Open source Firebase alternative with PostgreSQL, Authentication, and instant REST APIs",
   "author": "Supabase",
   "categories": ["data", "development", "utilities"],
   "description": "Supabase is an open source Firebase alternative. It provides all the backend services you need to build a product: a Postgres database, authentication, instant APIs, realtime subscriptions, storage, and edge functions.",
@@ -75,32 +75,13 @@
     },
     {
       "type": "text",
-      "label": "Dashboard Username",
-      "hint": "Username for Supabase Studio dashboard",
-      "env_variable": "DASHBOARD_USERNAME",
-      "min": 3,
-      "max": 64,
-      "required": true,
-      "default": "supabase"
-    },
-    {
-      "type": "password",
-      "label": "Dashboard Password",
-      "hint": "Password for Supabase Studio dashboard",
-      "env_variable": "DASHBOARD_PASSWORD",
-      "min": 8,
-      "max": 128,
-      "required": true
-    },
-    {
-      "type": "text",
       "label": "Site URL",
       "hint": "Your site URL (for redirects and email templates)",
       "env_variable": "SITE_URL",
       "min": 1,
       "max": 256,
       "required": true,
-      "default": "http://localhost:8000"
+      "default": "http://localhost:3000"
     },
     {
       "type": "text",
