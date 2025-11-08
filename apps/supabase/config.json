@@ -49,29 +49,32 @@
     {
       "type": "password",
       "label": "JWT Secret",
-      "hint": "Secret key for JWT token generation (min 32 characters)",
+      "hint": "Random string (32+ chars). Generate: openssl rand -base64 32 OR use default below for testing",
       "env_variable": "JWT_SECRET",
       "min": 32,
       "max": 128,
-      "required": true
+      "required": true,
+      "default": "your-super-secret-jwt-token-with-at-least-32-characters-long"
     },
     {
-      "type": "password",
+      "type": "text",
       "label": "Anon Key",
-      "hint": "Anonymous/public API key for client-side access",
+      "hint": "Public API key. Use default for testing, generate new for production at jwt.io",
       "env_variable": "ANON_KEY",
       "min": 32,
       "max": 512,
-      "required": true
+      "required": true,
+      "default": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IiIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNjQyNzY4MDAwfQ.abc123-replace-with-your-anon-key"
     },
     {
-      "type": "password",
+      "type": "text",
       "label": "Service Role Key",
-      "hint": "Service role key with full database access (keep secret)",
+      "hint": "Admin API key (keep secret!). Use default for testing, generate new for production at jwt.io",
       "env_variable": "SERVICE_ROLE_KEY",
       "min": 32,
       "max": 512,
-      "required": true
+      "required": true,
+      "default": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IiIsInJvbGUiOiJzZXJ2aWNlX3JvbGUiLCJpYXQiOjE2NDI3NjgwMDB9.xyz789-replace-with-your-service-role-key"
     },
     {
       "type": "text",
