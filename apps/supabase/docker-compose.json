@@ -15,7 +15,7 @@
     },
     {
       "name": "supabase-studio",
-      "image": "supabase/studio:latest",
+      "image": "supabase/studio:20231123-64e9f5a",
       "isMain": true,
       "internalPort": "3000",
       "environment": {
@@ -55,7 +55,7 @@
     },
     {
       "name": "supabase-auth",
-      "image": "supabase/gotrue:latest",
+      "image": "supabase/gotrue:v2.99.0",
       "environment": {
         "GOTRUE_API_HOST": "0.0.0.0",
         "GOTRUE_API_PORT": "9999",
@@ -100,7 +100,7 @@
     },
     {
       "name": "supabase-realtime",
-      "image": "supabase/realtime:latest",
+      "image": "supabase/realtime:v2.25.35",
       "environment": {
         "PORT": "4000",
         "DB_HOST": "supabase-db",
@@ -123,7 +123,7 @@
     },
     {
       "name": "supabase-storage",
-      "image": "supabase/storage-api:latest",
+      "image": "supabase/storage-api:v0.43.11",
       "environment": {
         "ANON_KEY": "${ANON_KEY}",
         "SERVICE_KEY": "${SERVICE_ROLE_KEY}",
@@ -151,7 +151,7 @@
     },
     {
       "name": "supabase-imgproxy",
-      "image": "darthsim/imgproxy:latest",
+      "image": "darthsim/imgproxy:v3.8.0",
       "environment": {
         "IMGPROXY_BIND": ":5001",
         "IMGPROXY_LOCAL_FILESYSTEM_ROOT": "/",
@@ -169,7 +169,7 @@
     },
     {
       "name": "supabase-meta",
-      "image": "supabase/postgres-meta:latest",
+      "image": "supabase/postgres-meta:v0.68.0",
       "environment": {
         "PG_META_PORT": "8080",
         "PG_META_DB_HOST": "supabase-db",
