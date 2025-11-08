@@ -1,6 +1,19 @@
 {
   "services": [
     {
+      "name": "supabase-kong-init",
+      "image": "busybox:latest",
+      "command": "sh -c 'mkdir -p /kong && cat > /kong/kong.yml << \"EOF\"\n_format_version: \"2.1\"\nservices:\n  - name: auth-v1\n    url: http://supabase-auth:9999/verify\n    routes:\n      - name: auth-v1-all\n        strip_path: true\n        paths:\n          - /auth/v1/\n    plugins:\n      - name: cors\n  - name: rest-v1\n    url: http://supabase-rest:3000/\n    routes:\n      - name: rest-v1-all\n        strip_path: true\n        paths:\n          - /rest/v1/\n    plugins:\n      - name: cors\n  - name: realtime-v1\n    url: http://supabase-realtime:4000/socket/\n    routes:\n      - name: realtime-v1-all\n        strip_path: true\n        paths:\n          - /realtime/v1/\n    plugins:\n      - name: cors\n  - name: storage-v1\n    url: http://supabase-storage:5000/\n    routes:\n      - name: storage-v1-all\n        strip_path: true\n        paths:\n          - /storage/v1/\n    plugins:\n      - name: cors\n  - name: meta\n    url: http://supabase-meta:8080/\n    routes:\n      - name: meta-all\n        strip_path: true\n        paths:\n          - /pg/\nplugins:\n  - name: cors\n    config:\n      origins:\n        - \"*\"\n      methods:\n        - GET\n        - POST\n        - PUT\n        - PATCH\n        - DELETE\n        - OPTIONS\n      headers:\n        - Accept\n        - Authorization\n        - Content-Type\n        - X-Client-Info\n        - apikey\n        - x-supabase-api-version\n      exposed_headers:\n        - X-Total-Count\n      credentials: true\n      max_age: 3600\nEOF\n'",
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/config",
+          "containerPath": "/kong",
+          "readOnly": false
+        }
+      ],
+      "restart": "on-failure"
+    },
+    {
       "name": "supabase-studio",
       "image": "supabase/studio:latest",
       "isMain": true,
@@ -32,12 +45,12 @@
       },
       "volumes": [
         {
-          "hostPath": "${APP_DATA_DIR}/data/kong",
+          "hostPath": "${APP_DATA_DIR}/config",
           "containerPath": "/var/lib/kong",
           "readOnly": false
         }
       ],
-      "dependsOn": ["supabase-auth", "supabase-rest", "supabase-realtime", "supabase-storage"],
+      "dependsOn": ["supabase-kong-init", "supabase-auth", "supabase-rest", "supabase-realtime", "supabase-storage"],
       "restart": "unless-stopped"
     },
     {
@@ -50,7 +63,7 @@
         "GOTRUE_DB_DRIVER": "postgres",
         "GOTRUE_DB_DATABASE_URL": "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@supabase-db:5432/${POSTGRES_DB}",
         "GOTRUE_SITE_URL": "${SITE_URL}",
-        "GOTRUE_URI_ALLOW_LIST": "",
+        "GOTRUE_URI_ALLOW_LIST": "*",
         "GOTRUE_DISABLE_SIGNUP": "false",
         "GOTRUE_JWT_ADMIN_ROLES": "service_role",
         "GOTRUE_JWT_AUD": "authenticated",
@@ -58,7 +71,7 @@
         "GOTRUE_JWT_EXP": "3600",
         "GOTRUE_JWT_SECRET": "${JWT_SECRET}",
         "GOTRUE_EXTERNAL_EMAIL_ENABLED": "true",
-        "GOTRUE_MAILER_AUTOCONFIRM": "false",
+        "GOTRUE_MAILER_AUTOCONFIRM": "true",
         "GOTRUE_SMTP_HOST": "${SMTP_HOST}",
         "GOTRUE_SMTP_PORT": "${SMTP_PORT}",
         "GOTRUE_SMTP_USER": "${SMTP_USER}",
@@ -74,15 +87,13 @@
     },
     {
       "name": "supabase-rest",
-      "image": "postgrest/postgrest:latest",
+      "image": "postgrest/postgrest:v12.0.2",
       "environment": {
         "PGRST_DB_URI": "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@supabase-db:5432/${POSTGRES_DB}",
-        "PGRST_DB_SCHEMAS": "public,storage,graphql_public",
+        "PGRST_DB_SCHEMAS": "public,storage",
         "PGRST_DB_ANON_ROLE": "anon",
         "PGRST_JWT_SECRET": "${JWT_SECRET}",
-        "PGRST_DB_USE_LEGACY_GUCS": "false",
-        "PGRST_APP_SETTINGS_JWT_SECRET": "${JWT_SECRET}",
-        "PGRST_APP_SETTINGS_JWT_EXP": "3600"
+        "PGRST_DB_USE_LEGACY_GUCS": "false"
       },
       "dependsOn": ["supabase-db"],
       "restart": "unless-stopped"
@@ -130,7 +141,7 @@
       },
       "volumes": [
         {
-          "hostPath": "${APP_DATA_DIR}/data/storage",
+          "hostPath": "${APP_DATA_DIR}/storage",
           "containerPath": "/var/lib/storage",
           "readOnly": false
         }
@@ -149,7 +160,7 @@
       },
       "volumes": [
         {
-          "hostPath": "${APP_DATA_DIR}/data/storage",
+          "hostPath": "${APP_DATA_DIR}/storage",
           "containerPath": "/var/lib/storage",
           "readOnly": true
         }
@@ -172,7 +183,7 @@
     },
     {
       "name": "supabase-db",
-      "image": "supabase/postgres:latest",
+      "image": "supabase/postgres:15.1.0.147",
       "environment": {
         "POSTGRES_HOST": "/var/run/postgresql",
         "POSTGRES_PORT": "5432",
