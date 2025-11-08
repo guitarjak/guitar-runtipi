@@ -1,0 +1,145 @@
+{
+  "name": "Supabase",
+  "id": "supabase",
+  "port": 8000,
+  "available": true,
+  "short_desc": "Open source Firebase alternative with PostgreSQL, Auth, Storage, and Real-time subscriptions",
+  "author": "Supabase",
+  "categories": ["data", "development", "utilities"],
+  "description": "Supabase is an open source Firebase alternative. It provides all the backend services you need to build a product: a Postgres database, authentication, instant APIs, realtime subscriptions, storage, and edge functions.",
+  "tipi_version": 2,
+  "version": "latest",
+  "source": "https://github.com/supabase/supabase",
+  "website": "https://supabase.com",
+  "exposable": true,
+  "supported_architectures": ["amd64", "arm64"],
+  "created_at": 1731048000000,
+  "updated_at": 1731048000000,
+  "dynamic_config": true,
+  "form_fields": [
+    {
+      "type": "text",
+      "label": "PostgreSQL Database Name",
+      "hint": "Name of the PostgreSQL database",
+      "env_variable": "POSTGRES_DB",
+      "min": 1,
+      "max": 64,
+      "required": true,
+      "default": "supabase"
+    },
+    {
+      "type": "text",
+      "label": "PostgreSQL User",
+      "hint": "PostgreSQL database user",
+      "env_variable": "POSTGRES_USER",
+      "min": 1,
+      "max": 64,
+      "required": true,
+      "default": "supabase"
+    },
+    {
+      "type": "password",
+      "label": "PostgreSQL Password",
+      "hint": "Password for PostgreSQL database user",
+      "env_variable": "POSTGRES_PASSWORD",
+      "min": 8,
+      "max": 128,
+      "required": true
+    },
+    {
+      "type": "password",
+      "label": "JWT Secret",
+      "hint": "Secret key for JWT token generation (min 32 characters)",
+      "env_variable": "JWT_SECRET",
+      "min": 32,
+      "max": 128,
+      "required": true
+    },
+    {
+      "type": "password",
+      "label": "Anon Key",
+      "hint": "Anonymous/public API key for client-side access",
+      "env_variable": "ANON_KEY",
+      "min": 32,
+      "max": 512,
+      "required": true
+    },
+    {
+      "type": "password",
+      "label": "Service Role Key",
+      "hint": "Service role key with full database access (keep secret)",
+      "env_variable": "SERVICE_ROLE_KEY",
+      "min": 32,
+      "max": 512,
+      "required": true
+    },
+    {
+      "type": "text",
+      "label": "Dashboard Username",
+      "hint": "Username for Supabase Studio dashboard",
+      "env_variable": "DASHBOARD_USERNAME",
+      "min": 3,
+      "max": 64,
+      "required": true,
+      "default": "supabase"
+    },
+    {
+      "type": "password",
+      "label": "Dashboard Password",
+      "hint": "Password for Supabase Studio dashboard",
+      "env_variable": "DASHBOARD_PASSWORD",
+      "min": 8,
+      "max": 128,
+      "required": true
+    },
+    {
+      "type": "text",
+      "label": "Site URL",
+      "hint": "Your site URL (for redirects and email templates)",
+      "env_variable": "SITE_URL",
+      "min": 1,
+      "max": 256,
+      "required": true,
+      "default": "http://localhost:8000"
+    },
+    {
+      "type": "text",
+      "label": "SMTP Host (Optional)",
+      "hint": "SMTP server host for sending emails",
+      "env_variable": "SMTP_HOST",
+      "required": false
+    },
+    {
+      "type": "number",
+      "label": "SMTP Port (Optional)",
+      "hint": "SMTP server port",
+      "env_variable": "SMTP_PORT",
+      "min": 1,
+      "max": 65535,
+      "required": false,
+      "default": 587
+    },
+    {
+      "type": "text",
+      "label": "SMTP User (Optional)",
+      "hint": "SMTP authentication username",
+      "env_variable": "SMTP_USER",
+      "required": false
+    },
+    {
+      "type": "password",
+      "label": "SMTP Password (Optional)",
+      "hint": "SMTP authentication password",
+      "env_variable": "SMTP_PASS",
+      "required": false
+    },
+    {
+      "type": "text",
+      "label": "SMTP Sender Email",
+      "hint": "Email address to send from",
+      "env_variable": "SMTP_SENDER_EMAIL",
+      "required": false,
+      "default": "noreply@localhost"
+    }
+  ]
+}
