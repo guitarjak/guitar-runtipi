@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 2,
+  "$schema": "https://schemas.runtipi.io/dynamic-compose.json",
+  "services": [
+    {
+      "name": "blinko-website",
+      "image": "blinkospace/blinko:latest",
+      "isMain": true,
+      "internalPort": 1111,
+      "volumes": [
+        {
+          "host": "/app/.blinko",
+          "container": "/app/.blinko"
+        }
+      ],
+      "environment": {
+        "NODE_ENV": "production",
+        "NEXTAUTH_SECRET": "${NEXTAUTH_SECRET}",
+        "DATABASE_URL": "postgresql://postgres:${POSTGRES_PASSWORD}@postgres:5432/postgres"
+      },
+      "dependsOn": [
+        "postgres"
+      ],
+      "healthcheck": {
+        "test": ["CMD", "wget", "--spider", "-q", "http://blinko-website:1111/"],
+        "interval": "30s",
+        "timeout": "10s",
+        "retries": 5,
+        "start_period": "30s"
+      }
+    },
+    {
+      "name": "postgres",
+      "image": "postgres:14",
+      "internalPort": 5432,
+      "volumes": [
+        {
+          "host": "/var/lib/postgresql/data",
+          "container": "/var/lib/postgresql/data"
+        }
+      ],
+      "environment": {
+        "POSTGRES_DB": "postgres",
+        "POSTGRES_USER": "postgres",
+        "POSTGRES_PASSWORD": "${POSTGRES_PASSWORD}",
+        "TZ": "Asia/Shanghai"
+      },
+      "healthcheck": {
+        "test": ["CMD", "pg_isready", "-U", "postgres", "-d", "postgres"],
+        "interval": "5s",
+        "timeout": "10s",
+        "retries": 5
+      }
+    }
+  ]
+}
