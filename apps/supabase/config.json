@@ -7,7 +7,8 @@
   "author": "Supabase",
   "categories": ["data", "development", "utilities"],
   "description": "Supabase is an open source Firebase alternative. It provides all the backend services you need to build a product: a Postgres database, authentication, instant APIs, realtime subscriptions, storage, and edge functions.",
-  "tipi_version": 2,
+  "tipi_version": 3,
+  "min_tipi_version": "4.5.0",
   "version": "latest",
   "source": "https://github.com/supabase/supabase",
   "website": "https://supabase.com",
@@ -49,7 +50,7 @@
     {
       "type": "password",
       "label": "JWT Secret",
-      "hint": "Random string (32+ chars). Generate: openssl rand -base64 32 OR use default below for testing",
+      "hint": "Random string (32+ chars). Generate: openssl rand -base64 32. Default matches bundled anon/service keys for testing only.",
       "env_variable": "JWT_SECRET",
       "min": 32,
       "max": 128,
@@ -59,32 +60,32 @@
     {
       "type": "text",
       "label": "Anon Key",
-      "hint": "Public API key. Use default for testing, generate new for production at jwt.io",
+      "hint": "Public API key. Default pairs with the default JWT secret; generate a new one for production at jwt.io.",
       "env_variable": "ANON_KEY",
       "min": 32,
       "max": 512,
       "required": true,
-      "default": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IiIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNjQyNzY4MDAwfQ.abc123-replace-with-your-anon-key"
+      "default": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJhbm9uIiwKICAgICJpc3MiOiAic3VwYWJhc2UtZGVtbyIsCiAgICAiaWF0IjogMTY0MTc2OTIwMCwKICAgICJleHAiOiAxNzk5NTM1NjAwCn0.dc_X5iR_VP_qT0zsiyj_I_OZ2T9FtRU2BBNWN8Bu4GE"
     },
     {
       "type": "text",
       "label": "Service Role Key",
-      "hint": "Admin API key (keep secret!). Use default for testing, generate new for production at jwt.io",
+      "hint": "Admin API key (keep secret!). Default pairs with the default JWT secret; generate a new one for production at jwt.io.",
       "env_variable": "SERVICE_ROLE_KEY",
       "min": 32,
       "max": 512,
       "required": true,
-      "default": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IiIsInJvbGUiOiJzZXJ2aWNlX3JvbGUiLCJpYXQiOjE2NDI3NjgwMDB9.xyz789-replace-with-your-service-role-key"
+      "default": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJzZXJ2aWNlX3JvbGUiLAogICAgImlzcyI6ICJzdXBhYmFzZS1kZW1vIiwKICAgICJpYXQiOiAxNjQxNzY5MjAwLAogICAgImV4cCI6IDE3OTk1MzU2MDAKfQ.DaYlNEoUrrEn2Ig7tqibS-PHK5vgusbcbo7X36XVt4Q"
     },
     {
       "type": "text",
       "label": "Site URL",
-      "hint": "Your site URL (for redirects and email templates)",
+      "hint": "Base URL for redirects and email templates. Defaults to your Runtipi local domain.",
       "env_variable": "SITE_URL",
       "min": 1,
       "max": 256,
       "required": true,
-      "default": "http://localhost:3000"
+      "default": "http://${LOCAL_DOMAIN}"
     },
     {
       "type": "text",

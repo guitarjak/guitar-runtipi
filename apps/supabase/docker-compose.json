@@ -26,7 +26,8 @@
         "SUPABASE_URL": "http://supabase-kong:8000",
         "SUPABASE_PUBLIC_URL": "${SITE_URL}",
         "SUPABASE_ANON_KEY": "${ANON_KEY}",
-        "SUPABASE_SERVICE_KEY": "${SERVICE_ROLE_KEY}"
+        "SUPABASE_SERVICE_KEY": "${SERVICE_ROLE_KEY}",
+        "AUTH_JWT_SECRET": "${JWT_SECRET}"
       },
       "dependsOn": ["supabase-kong", "supabase-meta"],
       "restart": "unless-stopped"
