@@ -1,33 +1,36 @@
 {
   "name": "Blinko",
-  "min_tipi_version": "4.5.0",
   "available": true,
   "port": 1111,
   "exposable": true,
   "dynamic_config": true,
   "id": "blinko",
-  "description": "An open-source, self-hosted personal AI note tool prioritizing privacy, built using TypeScript.",
-  "tipi_version": 3,
+  "description": "Open-source, self-hosted personal AI note tool with RAG search and Markdown-friendly card-based writing.",
+  "tipi_version": 2,
   "version": "latest",
-  "categories": ["productivity", "ai", "notes"],
-  "short_desc": "AI-powered card note-taking tool with RAG and self-hosting.",
+  "categories": ["ai", "utilities"],
+  "short_desc": "AI-powered card note-taking with RAG search and self-hosting.",
   "author": "blinkospace",
   "source": "https://github.com/blinkospace/blinko",
   "website": "https://blinko.space",
   "form_fields": [
     {
-      "id": "NEXTAUTH_SECRET",
-      "label": "NextAuth Secret",
       "type": "text",
-      "default": "generate_a_secure_secret",
-      "description": "A strong random string for security. Use 'openssl rand -base64 32' to generate one."
+      "label": "NextAuth Secret",
+      "hint": "Generate a strong random string, e.g. `openssl rand -base64 32`.",
+      "min": 20,
+      "required": true,
+      "env_variable": "NEXTAUTH_SECRET"
     },
     {
-      "id": "POSTGRES_PASSWORD",
-      "label": "Postgres Password",
       "type": "password",
+      "label": "Postgres Password",
+      "hint": "Password for the internal postgres user.",
+      "min": 8,
+      "required": true,
+      "env_variable": "POSTGRES_PASSWORD",
       "default": "mysecretpassword",
-      "description": "The password for the internal PostgreSQL database."
+      "max": 100
     }
   ],
   "supported_architectures": ["arm64", "amd64"],
