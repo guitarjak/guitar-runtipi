@@ -2,7 +2,7 @@
   "services": [
     {
       "name": "pocketbase",
-      "image": "pocketbase/pocketbase:0.22.13",
+      "image": "ghcr.io/pocketbase/pocketbase:0.22.13",
       "isMain": true,
       "internalPort": "8090",
       "command": "serve --http=0.0.0.0:8090 --dir /pb/pb_data",
