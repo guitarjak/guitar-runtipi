@@ -1,0 +1,26 @@
+{
+  "urn": "runtipi:pocketbase",
+  "name": "PocketBase",
+  "id": "pocketbase",
+  "available": true,
+  "short_desc": "Lightweight realtime backend in one file",
+  "author": "PocketBase",
+  "port": 8090,
+  "categories": [
+    "development"
+  ],
+  "description": "PocketBase is an open source backend in one file with built-in SQLite database, realtime subscriptions, authentication, file storage, and an admin dashboard.",
+  "tipi_version": 2,
+  "version": "0.22.13",
+  "source": "https://github.com/pocketbase/pocketbase",
+  "website": "https://pocketbase.io",
+  "exposable": true,
+  "supported_architectures": [
+    "amd64",
+    "arm64"
+  ],
+  "created_at": 1765006122000,
+  "updated_at": 1765006122000,
+  "dynamic_config": true,
+  "form_fields": []
+}

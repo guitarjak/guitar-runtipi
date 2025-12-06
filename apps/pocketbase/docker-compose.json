@@ -1,0 +1,29 @@
+{
+  "services": [
+    {
+      "name": "pocketbase",
+      "image": "pocketbase/pocketbase:0.22.13",
+      "isMain": true,
+      "internalPort": "8090",
+      "command": "serve --http=0.0.0.0:8090 --dir /pb/pb_data",
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/pb_data",
+          "containerPath": "/pb/pb_data",
+          "readOnly": false
+        },
+        {
+          "hostPath": "${APP_DATA_DIR}/pb_public",
+          "containerPath": "/pb/pb_public",
+          "readOnly": false
+        },
+        {
+          "hostPath": "${APP_DATA_DIR}/pb_hooks",
+          "containerPath": "/pb/pb_hooks",
+          "readOnly": false
+        }
+      ],
+      "restart": "unless-stopped"
+    }
+  ]
+}
