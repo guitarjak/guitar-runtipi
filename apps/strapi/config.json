@@ -1,0 +1,92 @@
+{
+  "urn": "runtipi:strapi",
+  "name": "Strapi",
+  "id": "strapi",
+  "available": true,
+  "short_desc": "Open-source headless CMS for APIs and content pipelines",
+  "author": "Strapi",
+  "port": 1337,
+  "categories": [
+    "development"
+  ],
+  "description": "Strapi is an open-source headless CMS powered by Node.js. Build content models visually, manage media, and expose REST or GraphQL APIs that connect to any frontend or mobile app.",
+  "tipi_version": 2,
+  "version": "5.30.1",
+  "source": "https://github.com/strapi/strapi",
+  "website": "https://strapi.io",
+  "exposable": true,
+  "supported_architectures": [
+    "amd64",
+    "arm64"
+  ],
+  "created_at": 1717000000000,
+  "updated_at": 1717000000000,
+  "dynamic_config": true,
+  "form_fields": [
+    {
+      "type": "text",
+      "label": "Database Name",
+      "hint": "PostgreSQL database name for Strapi",
+      "max": 50,
+      "min": 1,
+      "required": true,
+      "env_variable": "DATABASE_NAME",
+      "default": "strapi"
+    },
+    {
+      "type": "text",
+      "label": "Database User",
+      "hint": "PostgreSQL user for Strapi",
+      "max": 50,
+      "min": 1,
+      "required": true,
+      "env_variable": "DATABASE_USERNAME",
+      "default": "strapi"
+    },
+    {
+      "type": "password",
+      "label": "Database Password",
+      "hint": "Password for the PostgreSQL user",
+      "max": 100,
+      "min": 8,
+      "required": true,
+      "env_variable": "DATABASE_PASSWORD"
+    },
+    {
+      "type": "password",
+      "label": "App Keys",
+      "hint": "Comma-separated keys used to sign Strapi cookies (e.g. key1,key2)",
+      "max": 200,
+      "min": 16,
+      "required": true,
+      "env_variable": "APP_KEYS"
+    },
+    {
+      "type": "password",
+      "label": "API Token Salt",
+      "hint": "Secret salt used when generating API tokens",
+      "max": 200,
+      "min": 16,
+      "required": true,
+      "env_variable": "API_TOKEN_SALT"
+    },
+    {
+      "type": "password",
+      "label": "Admin JWT Secret",
+      "hint": "JWT secret for Strapi admin authentication",
+      "max": 200,
+      "min": 16,
+      "required": true,
+      "env_variable": "ADMIN_JWT_SECRET"
+    },
+    {
+      "type": "password",
+      "label": "JWT Secret",
+      "hint": "JWT secret for API authentication",
+      "max": 200,
+      "min": 16,
+      "required": true,
+      "env_variable": "JWT_SECRET"
+    }
+  ]
+}
